@@ -1,0 +1,67 @@
+{% load static %}
+{% load my_tags %}
+
+<div class="product__item {% if product.discount %}sale{% endif %}">
+    <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
+        {% if product.is_discount %}
+            <span class="label">Sale</span>
+        {% endif %}
+
+        {% if product.is_new %}
+            <span style="background-color: white; color: black" class="label {% if product.discount %}mt-4{% endif %}">New</span>
+        {% endif %}
+
+        <ul class="product__hover">
+            <li>
+                <a href="{% url 'products:update-wishlist' pk=product.pk %}?next={{ request.path }}">
+                    {% if request.user.is_authenticated and product|in_wishlist:request.user %}
+                        <img src="{% static "img/icon/red_heart.png" %}" style="width: 36px; height: 35px" alt="">
+                    {% else %}
+                        <img src="{% static "img/icon/heart.png" %}" alt="">
+                    {% endif %}
+                </a>
+            </li>
+
+            <li><a href="{% url 'products:detail' pk=product.pk %}"><img src="{% static "img/icon/search.png" %}"
+                                                                         alt=""></a></li>
+        </ul>
+    </div>
+    <div class="product__item__text">
+        <h6>{{ product.title }}</h6>
+        <a href="{% url 'products:update-cart' pk=product.pk %}?next={{ request.path }}" class="add-cart">
+            {% if product|in_cart:request %}
+                - Remove From Cart
+            {% else %}
+                + Add To Cart
+            {% endif %}
+        </a>
+        <div class="rating">
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+        </div>
+        <h5>${{ product.real_price }}
+            {% if product.is_discount %}
+                <strike class="text-secondary">{{ product.price }}</strike>
+            {% endif %}
+        </h5>
+        <div class="product__color__select">
+            <label for="pc-4">
+                <input type="radio" id="pc-4">
+            </label>
+            <label class="active black" for="pc-5">
+                <input type="radio" id="pc-5">
+            </label>
+            <label class="grey" for="pc-6">
+                <input type="radio" id="pc-6">
+            </label>
+        </div>
+    </div>
+</div>
+
+
+
+
+

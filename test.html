@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+
+    <title>Rest</title>
+</head>
+<body>
+
+<div class="container mt-lg-5">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="align-items-center">
+            <th>Title</th>
+            <th>Code</th>
+            <th>Price</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody id="currency-table">
+
+        </tbody>
+    </table>
+</div>
+
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+        $.getJSON('https://nbu.uz/uz/exchange-rates/json/', function (data) {
+            for (const currency of data) {
+                let row = '<tr>';
+                row += '<td>' + currency.title + '</td>'
+                row += '<td>' + currency.code + '</td>'
+                row += '<td>' + currency.cb_price + ' so`m </td>'
+                row += '<td>' + currency.date + '</td>'
+                row += '</tr>'
+                $('#currency-table').append(row);
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

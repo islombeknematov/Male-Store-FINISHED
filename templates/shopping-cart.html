@@ -1,0 +1,112 @@
+{% extends 'layouts/base.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'pages:home' %}">Home</a>
+                            <a href="{% url 'products:list' %}">Shop</a>
+                            <span>Shopping Cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in object_list %}
+                                <tr>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__text">
+                                            <h6>{{ product.title }}</h6>
+                                            <h5>$ {{ product.real_price }}</h5>
+                                        </div>
+                                    </td>
+                                    <td class="quantity__item">
+                                        <div class="quantity">
+                                            <div class="pro-qty-2">
+                                                <input type="text" value="1">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ {{ product.real_price }}</td>
+                                    <td class="cart__close">
+                                        <a href="{% url 'products:update-cart' product.pk %}?next={{ request.path }}">
+                                            <i class="fa fa-close"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="cart__discount">
+                        <h6>Discount codes</h6>
+                        <form action="{% url 'users:coupon-check' %}" method="post">
+                            {% csrf_token %}
+                            <input name="coupon" type="text" placeholder="Coupon code">
+                            <button type="submit">Apply</button>
+                        </form>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <p class="text-danger">{{ message }} &#10006;</p>
+                                {% elif message.tags == 'success' %}
+                                    <p class="text-success">{{ message }} &#10004;</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                    <div class="cart__total">
+                        <h6>Cart total</h6>
+                        <ul>
+                            {% get_cart_info request as cart %}
+                            <li>Subtotal <span>$ {{ cart.1 }}</span></li>
+                            {% if request.user.profile.balance %}
+                            <li>Coupon: <span>$ -{{ request.user.profile.balance }}</span></li>
+                            {% endif %}
+                            <li>Total <span>$ {% get_total cart.1 request %}</span></li>
+                        </ul>
+                        <a href="{% url 'orders:checkout-view' %}" class="primary-btn">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+{% endblock %}
+
+
+
+

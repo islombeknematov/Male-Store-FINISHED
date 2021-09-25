@@ -1,0 +1,138 @@
+{% load static %}
+{% load my_tags %}
+{% load i18n %}
+
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay">
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                {#                {% if request.user.is_authenticated %}#}
+                {#                    <a href="{% url 'auth_logout ' %}">Log out</a>#}
+                {#                {% else %}#}
+                <a href="# {#{% url 'auth_login'  %}#}">Sign in</a>
+                {#                {% endif %}#}
+            </div>
+            <div class="offcanvas__top__hover">
+                <span>En <i class="arrow_carrot-down"></i></span>
+                <ul>
+                    <li>Ru</li>
+                    <li>Uz</li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="{% static "img/icon/search.png" %}" alt=""></a>
+            <a href="#"><img src="{% static "img/icon/heart.png" %}" alt=""></a>
+            <a href="#"><img src="{% static "img/icon/cart.png" %}" alt=""> <span>0</span></a>
+            <div class="price">$0.00</div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__text">
+        </div>
+    </div>
+</div>
+<!-- Offcanvas Menu End -->
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="header__top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-7">
+                    <div class="header__top__left">
+                        {% if full_name %}
+                            <a style="color: white" class="font-weight-bolder"><span style="color: #f5ae45;"
+                                                                                     class="font-weight-bolder">Welcome:</span> {{ full_name }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-5">
+                    <div class="header__top__right">
+                        <div class="header__top__links">
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'orders:history' %}">History</a>
+                                <a href="{% url 'users:profile' %}">Profile</a>
+                                <a href="{% url 'auth_logout' %}">Log out</a>
+                            {% else %}
+                                <a href="{% url 'auth_login' %}">Sign in</a>
+                            {% endif %}
+                        </div>
+                        <div class="header__top__hover">
+                            {% get_current_language as current_lang %}
+                            <span>{{ current_lang }}<i class="arrow_carrot-down"></i></span>
+
+                            <ul>
+                                {% get_available_languages as langs %}
+                                {# HERE IT GETS ALL AVAILABLE LANGUAGES IN SETTINGS.LANGUAGES #}
+                                {% for lang in langs %}
+                                    {% if lang.0 != current_lang %}
+                                        <li>
+                                            <a class="text-dark" href="/{{ lang.0 }}/">{{ lang.0|upper }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="header__logo">
+                    <a href="{% url 'pages:home' %}"><img src="{% static "img/logo.png" %}" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <nav class="header__menu mobile-menu">
+                    <ul>
+                        {% url 'pages:home' as lang_link %}
+                        <li {% if request.path == lang_link %}class="active"{% endif %}>
+                            <a href="{{ lang_link }}">Home</a>
+                        </li>
+
+                        {% url 'products:list' as lang_link %}
+                        <li {% if request.path == lang_link %}class="active"{% endif %}>
+                            <a href="{{ lang_link }}">Products</a>
+                        </li>
+
+                        {% url 'blog:list' as lang_link %}
+                        <li {% if request.path == lang_link %}class="active"{% endif %}>
+                            <a href="{{ lang_link }}">Blog</a>
+                        </li>
+
+                        {% url 'pages:about' as lang_link %}
+                        <li {% if request.path == lang_link %}class="active"{% endif %}>
+                            <a href="{{ lang_link }}">About</a>
+                        </li>
+
+                        {% url 'pages:contact' as lang_link %}
+                        <li {% if request.path == lang_link %}class="active"{% endif %}>
+                            <a href="{{ lang_link }}">Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="header__nav__option">
+                    <a href="#" class="search-switch"><img src="{% static "img/icon/search.png" %}" alt=""></a>
+
+                    <a href="{% url 'products:wishlist' %}"><img src="{% static "img/icon/heart.png" %}" alt=""></a>
+                    {% get_cart_info request as cart_info %}
+
+                    <a href="{% url 'products:cart' %}"><img src="{% static "img/icon/cart.png" %}" alt="">
+                        <span>{{ cart_info.0 }}</span></a>
+                    <div class="price">${{ cart_info.1 }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+</header>
+<!-- Header Section End -->

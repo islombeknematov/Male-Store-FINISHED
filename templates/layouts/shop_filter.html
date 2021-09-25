@@ -1,0 +1,128 @@
+
+
+ <div class="shop__sidebar">
+     <div class="shop__sidebar__search">
+         <form action="{% url 'products:list' %}">
+
+                 <input value="{{ request.GET.q }}" name="q" type="text" placeholder="Search...">
+
+             <button type="submit"><span class="icon_search"></span></button>
+         </form>
+         <a class="text-secondary table-bordered p-1" style="margin-left: 36px" href="{% url 'products:list' %}">&#8592&nbspBack to all</a>
+         
+     </div>
+     <div class="shop__sidebar__accordion">
+         <div class="accordion" id="accordionExample">
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                 </div>
+                 <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__categories">
+                             <ul class="nice-scroll">
+                                {% for categ in categories %}
+                                    <li>
+                                        <a onclick="addUrlParameter('categ', {{ categ.pk }})"
+                                        {% if request.GET.categ == categ.pk|stringformat:'i' %}
+                                            class="text-dark font-weight-bolder"
+                                        {% endif %}>
+                                            {{ categ.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
+                 </div>
+                 <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__brand">
+                             <ul>
+                                 {% for brand in brands %}
+                                    <li>
+                                        <a onclick="addUrlParameter('brand', {{ brand.pk }})"
+                                        {% if request.GET.brand == brand.pk|stringformat:'i' %}
+                                            class="text-dark font-weight-bolder"
+                                        {% endif %}>
+                                            {{ brand.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                 </div>
+                 <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__tags">
+                            {% for tag in tags %}
+                                <a onclick="addUrlParameter('tag', {{ tag.pk }})"
+                                        {% if request.GET.tag == tag.pk|stringformat:'i' %} style="color: black; background-color: lightgray" {% endif %}
+                                    >#&nbsp{{ tag.title }}</a>
+                            {% endfor %}
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                 </div>
+                 <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__price">
+                            <input type="text" class="js-range-slider" name="price_filter" value="" />
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                 </div>
+                 <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__tags">
+                             {% for size in sizes %}
+                                 <a {% if request.GET.size == size.pk|stringformat:"i" %} style="background-color: lightgray; color: black" {% endif %}
+                                 onclick="addUrlParameter('size', {{ size.pk }})" style="color: grey;">{{ size.title }}</a>
+                             {% endfor %}
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="card">
+                 <div class="card-heading">
+                     <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                 </div>
+                 <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
+                     <div class="card-body">
+                         <div class="shop__sidebar__color">
+                             {% for color in colors %}
+                                 <label onclick="addUrlParameter('color', {{ color.pk }})"
+                                        style="background-color: {{ color.code }}">
+                                     <input type="radio">
+                                 </label>
+                             {% endfor %}
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
