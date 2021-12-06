@@ -1,45 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
-
-    <title>Rest</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <body>
 
-<div class="container mt-lg-5">
-    <table class="table table-bordered">
-        <thead>
-        <tr class="align-items-center">
-            <th>Title</th>
-            <th>Code</th>
-            <th>Price</th>
-            <th>Date</th>
-        </tr>
-        </thead>
-        <tbody id="currency-table">
 
-        </tbody>
-    </table>
-</div>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>First</th>
+        <th>Second</th>
+        <th>Third</th>
+        <th>Fourth</th>
+    </tr>
+    </thead>
+    <tbody id="money">
+
+    </tbody>
+</table>
+
 
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-
 <script>
     $(function () {
-        $.getJSON('https://nbu.uz/uz/exchange-rates/json/', function (data) {
-            for (const currency of data) {
-                let row = '<tr>';
-                row += '<td>' + currency.title + '</td>'
-                row += '<td>' + currency.code + '</td>'
-                row += '<td>' + currency.cb_price + ' so`m </td>'
-                row += '<td>' + currency.date + '</td>'
-                row += '</tr>'
-                $('#currency-table').append(row);
+        $.getJSON('https://nbu.uz/en/exchange-rates/json/', function (data) {
+            for(const info of data){
+                let table = '<tr>';
+                table += '<td>'+ info.title + '</td>'
+                table += '<td>'+ info.code + '</td>'
+                table += '<td>'+ info.cb_price + '</td>'
+                table += '<td>'+ info.date + '</td>'
+                table += '</tr>'
+                $('#money').append(table)
             }
         })
     })

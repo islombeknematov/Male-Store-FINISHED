@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Created at</th>
+        </tr>
+    </thead>
+    <tbody id="my-table">
+        
+    </tbody>
+</table>
+</div>
+
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $.getJSON('http://127.0.0.1:8000/en/api/categories/', function (data){
+            for (const info of data){
+                let row = '<tr>';
+                row += '<td>' + info.id + '</td>'
+                row += '<td>' + info.title + '</td>'
+                row += '<td>' + info.created_at + '</td>'
+                row += '</tr>'
+                $('#my-table').append(row)
+            }
+        })
+    })
+</script>
+</body>
+</html>
