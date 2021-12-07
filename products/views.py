@@ -45,7 +45,7 @@ class ProductsListView(ListView):
         if tag:
             qs = qs.filter(tags__id=tag)
 
-        color = self1.request.GET.get('color')
+        color = self.request.GET.get('color')
         if color:
             qs = qs.filter(colors__id=color)
 
